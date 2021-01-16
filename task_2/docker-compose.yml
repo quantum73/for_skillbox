@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+  postgres:
+    container_name: "postgres"
+    restart: always
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=for_skillbox
+    volumes:
+      - ./postgres-data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    restart: always
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    entrypoint: ["python", "app.py", "runserver", "-h", "0.0.0.0", "-p", "5000"]

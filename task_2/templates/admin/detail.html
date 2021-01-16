@@ -1,0 +1,24 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+<h1>Detail info about cat</h1>
+
+<p style="margin: 10px 0;">Имя: <b>{{ cat.name }}</b></p>
+<p style="margin: 10px 0;">Порода: <b>{{ cat.breed }}</b></p>
+<p style="margin: 10px 0;">Возраст: <b>{{ cat.age }}</b></p>
+<p style="margin: 10px 0;">Описание: <b>{{ cat.description }}</b></p>
+
+<div style="margin: 15px 0;">
+    {% if cat.image == 'no image' %}
+        <img style="width: 50%; height: 50%; max-width: 50%; max-height: 50%; border: 1px none; border-radius: 12px;"
+             src="{{ url_for('static', filename='images/no_image.jpg') }}"
+             alt="cat image">
+    {% else %}
+        <img style="width: 50%; height: 50%; max-width: 50%; max-height: 50%; border: 1px none; border-radius: 12px;"
+             src="{{ url_for('static', filename=cat.image) }}"
+             alt="cat image">
+    {% endif %}
+</div>
+
+{% endblock %}

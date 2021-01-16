@@ -1,0 +1,53 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+<form style="display: inline;" action="{{ url_for('.search') }}" method="post" name="search">
+    {{ form.search(size=20) }}
+    <input type="submit" value="Search">
+</form>
+
+<h3>Sorted by</h3>
+
+<div>
+    <a style="margin: 0 10px 0 0;" href="{{ url_for('.index', sort_type=1) }}">Name</a>
+    <a style="margin: 0 10px 0 0;" href="{{ url_for('.index', sort_type=2) }}">Breed</a>
+    <a style="margin: 0 10px 0 0;" href="{{ url_for('.index', sort_type=3) }}">Age</a>
+    <a style="margin: 0 10px 0 0;" href="{{ url_for('.index') }}">Relevant</a>
+</div>
+
+<div style="display: flex; flex-direction: column; justify-content: center;">
+
+    {% for cat in cats.items %}
+        <div style="margin: 20px 0;">
+            <p style="font-weight: bold">{{ cat.name }}</p>
+            <a href="{{ url_for('.detail', cat_id=cat.id) }}">
+                {% if cat.image == 'no image' %}
+                    <img style="width: 30%; height: 30%; max-width: 30%; max-height: 30%; border: 1px none; border-radius: 12px;"
+                         src="{{ url_for('static', filename='images/no_image.jpg') }}"
+                         alt="cat image">
+                {% else %}
+                    <img style="width: 30%; height: 30%; max-width: 30%; max-height: 30%; border: 1px none; border-radius: 12px;"
+                         src="{{ url_for('static', filename=cat.image) }}"
+                         alt="cat image">
+                {% endif %}
+            </a>
+        </div>
+    {% endfor %}
+
+    <div style="margin: 20px 0;">
+        {% if cats.has_prev %}
+            <a href="{{ url_for('.index', page=cats.prev_num) }}">&lt;&lt; Back page</a>
+        {% else %}
+            &lt;&lt; Back page
+        {% endif %} |
+        {% if cats.has_next %}
+            <a href="{{ url_for('.index', page=cats.next_num) }}">Next page &gt;&gt;</a>
+        {% else %}
+            Next page &gt;&gt;
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}
